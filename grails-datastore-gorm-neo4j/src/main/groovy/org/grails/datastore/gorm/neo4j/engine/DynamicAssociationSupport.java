@@ -50,7 +50,7 @@ public class DynamicAssociationSupport {
             final StatementResult relationships = boltSession.run(cypher, isMap);
             while(relationships.hasNext()) {
                 final Record row = relationships.next();
-                String relType = row.get("relType").asString();
+                String relType = row.get("name").asString();
                 Boolean outGoing = row.get("out").asBoolean();
                 Map<String, Object> values = row.get("values").asMap();
                 TypeDirectionPair key = new TypeDirectionPair(relType, outGoing);
