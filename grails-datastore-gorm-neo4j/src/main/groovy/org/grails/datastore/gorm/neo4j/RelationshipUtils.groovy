@@ -92,6 +92,18 @@ class RelationshipUtils {
         if(!attributes.isEmpty()) {
             sb.append(OPEN_BRACE)
             def i = attributes.entrySet().iterator()
+
+            if (association instanceof DynamicAssociation) {
+                sb.append("name")
+                    .append(COLON).append(SINGLE_QUOTE)
+                    .append(association.getName())
+                    .append(SINGLE_QUOTE)
+
+                if(i.hasNext()) {
+                    sb.append(COMMA)
+                }
+            }
+
             while(i.hasNext()) {
                 def entry = i.next()
                 sb.append(entry.key)
@@ -104,6 +116,16 @@ class RelationshipUtils {
                 }
             }
             sb.append(CLOSE_BRACE)
+        }
+        else {
+            if (association instanceof DynamicAssociation) {
+                sb.append(OPEN_BRACE)
+                sb.append("name")
+                    .append(COLON).append(SINGLE_QUOTE)
+                    .append(association.getName())
+                    .append(SINGLE_QUOTE)
+                sb.append(CLOSE_BRACE)
+            }
         }
 
         sb.append(END_RELATIONSHIP)
@@ -183,7 +205,7 @@ class RelationshipUtils {
             return relationshipType
         }
         else if (association instanceof DynamicAssociation) {
-            return association.getName()
+            return association.getName().replaceAll("([a-z])([A-Z]+)", '$1_$2').toUpperCase()
         }
         else {
             boolean reversed = useReversedMappingFor(association)
