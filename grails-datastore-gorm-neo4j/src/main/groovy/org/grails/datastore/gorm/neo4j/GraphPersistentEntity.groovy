@@ -40,6 +40,7 @@ class GraphPersistentEntity extends AbstractPersistentEntity<NodeConfig> {
     protected Collection<Object> labelObjects
     protected final boolean hasDynamicLabels
     protected final boolean hasDynamicAssociations
+    protected final boolean hasConvertDynamicAssociationNames
     protected final boolean relationshipEntity
     protected final GraphClassMapping classMapping
     protected final String batchId
@@ -65,6 +66,7 @@ class GraphPersistentEntity extends AbstractPersistentEntity<NodeConfig> {
         }
         this.relationshipEntity = this instanceof RelationshipPersistentEntity
         this.hasDynamicAssociations = mappedForm.isDynamicAssociations()
+        this.hasConvertDynamicAssociationNames = mappedForm.isConvertDynamicAssociationNames()
         this.hasDynamicLabels = establishLabels()
         this.external = external
         this.classMapping = new GraphClassMapping(this, context)
@@ -640,5 +642,12 @@ DELETE r"""
      */
     boolean hasDynamicLabels() {
         return hasDynamicLabels
+    }
+
+    /**
+     * @return Whether dynamic association names have to be converted to Neo4j recommendation.
+     */
+    boolean hasConvertDynamicAssociationNames() {
+        return this.hasConvertDynamicAssociationNames
     }
 }

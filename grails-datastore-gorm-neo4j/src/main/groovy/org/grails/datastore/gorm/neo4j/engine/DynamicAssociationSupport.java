@@ -35,6 +35,8 @@ public class DynamicAssociationSupport {
         Map<TypeDirectionPair, Map<String, Object>> relationshipsMap = new HashMap<>();
 
         final boolean hasDynamicAssociations = graphPersistentEntity.hasDynamicAssociations();
+        final boolean hasConvertDynamicAssociationNames = graphPersistentEntity.hasConvertDynamicAssociationNames();
+
         Object alreadyLoaded = session.getAttribute(object, Neo4jEntityPersister.DYNAMIC_ASSOCIATION_PARAM);
         if(alreadyLoaded == null && hasDynamicAssociations) {
             session.setAttribute(object, Neo4jEntityPersister.DYNAMIC_ASSOCIATION_PARAM, Boolean.TRUE);
@@ -50,7 +52,7 @@ public class DynamicAssociationSupport {
             final StatementResult relationships = boltSession.run(cypher, isMap);
             while(relationships.hasNext()) {
                 final Record row = relationships.next();
-                String relType = row.get("name").asString();
+                String relType = hasConvertDynamicAssociationNames ? row.get("name").asString() : row.get("relType").asString();
                 Boolean outGoing = row.get("out").asBoolean();
                 Map<String, Object> values = row.get("values").asMap();
                 TypeDirectionPair key = new TypeDirectionPair(relType, outGoing);

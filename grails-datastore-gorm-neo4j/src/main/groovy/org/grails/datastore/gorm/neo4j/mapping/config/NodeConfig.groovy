@@ -44,6 +44,12 @@ class NodeConfig extends Entity<Attribute> {
      * @return True if the entity supports dynamic associations
      */
     boolean dynamicAssociations
+    /**
+     * Whether this entity supports convert dynamic association names. The default is false. Setting this to true will allow Grails to convert dynamic relationships name to the Neo4j recommendation https://neo4j.com/docs/cypher-manual/current/syntax/naming/
+     *
+     * @return True if the entity supports convert dynamic association names
+     */
+    boolean convertDynamicAssociationNames
 
     Boolean autoLabel
 

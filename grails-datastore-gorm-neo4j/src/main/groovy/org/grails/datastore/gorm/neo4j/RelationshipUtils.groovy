@@ -21,6 +21,7 @@ import grails.neo4j.Relationship
 import groovy.transform.CompileStatic
 import org.grails.datastore.gorm.neo4j.mapping.config.Attribute
 import org.grails.datastore.gorm.neo4j.mapping.config.DynamicAssociation
+import org.grails.datastore.gorm.neo4j.mapping.config.NodeConfig
 import org.grails.datastore.mapping.model.PersistentEntity
 import org.grails.datastore.mapping.model.types.Association
 import org.grails.datastore.mapping.model.types.ManyToMany
@@ -99,7 +100,7 @@ class RelationshipUtils {
                     .append(association.getName())
                     .append(SINGLE_QUOTE)
 
-                if(i.hasNext()) {
+                if (i.hasNext()) {
                     sb.append(COMMA)
                 }
             }
@@ -205,7 +206,9 @@ class RelationshipUtils {
             return relationshipType
         }
         else if (association instanceof DynamicAssociation) {
-            return association.getName().replaceAll("([a-z])([A-Z]+)", '$1_$2').toUpperCase()
+            def ownerMappedForm = association.getOwner().getMapping().getMappedForm()
+            boolean hasConvert = ownerMappedForm instanceof NodeConfig ? ownerMappedForm.convertDynamicAssociationNames : false
+            return hasConvert ? association.getName().replaceAll("([a-z])([A-Z]+)", '$1_$2').toUpperCase() : association.getName()
         }
         else {
             boolean reversed = useReversedMappingFor(association)
