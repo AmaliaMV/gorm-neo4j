@@ -207,7 +207,7 @@ class RelationshipUtils {
         }
         else if (association instanceof DynamicAssociation) {
             def ownerMappedForm = association.getOwner().getMapping().getMappedForm()
-            boolean hasConvert = ownerMappedForm instanceof NodeConfig ? ownerMappedForm.convertDynamicAssociationNames : false
+            boolean hasConvert = ownerMappedForm instanceof NodeConfig ? ((NodeConfig) ownerMappedForm).convertDynamicAssociationNames : false
             return hasConvert ? association.getName().replaceAll("([a-z])([A-Z]+)", '$1_$2').toUpperCase() : association.getName()
         }
         else {
