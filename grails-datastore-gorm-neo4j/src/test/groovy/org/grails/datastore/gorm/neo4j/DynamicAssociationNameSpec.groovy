@@ -110,10 +110,10 @@ class DynamicAssociationNameSpec extends GormDatastoreSpec {
         session.flush()
         session.clear()
 
-        when: 'ask for the person'
+        when: 'ask for the degree'
         def result = Degree.findByInternalCode('CM18')
 
-        then:
+        then: 'the dynamic association are loaded correctly'
         result.optionalSubjects[0].name == 'Differential Equations'
         result.mandatorySubjects[0].name == 'Calculus'
         result.inChargeOf.name == 'Stuart'
