@@ -45,6 +45,7 @@ class RelationshipUtils {
     private static final String SINGLE_QUOTE = "'"
     private static final String START_RELATIONSHIP = "-["
     private static final String END_RELATIONSHIP = "]-"
+    private static final String ASSOCIATION_NAME = "associationName"
 
     /**
      * Whether the association is inverse
@@ -95,7 +96,7 @@ class RelationshipUtils {
             def i = attributes.entrySet().iterator()
 
             if (association instanceof DynamicAssociation) {
-                sb.append("name")
+                sb.append(ASSOCIATION_NAME)
                     .append(COLON).append(SINGLE_QUOTE)
                     .append(association.getName())
                     .append(SINGLE_QUOTE)
@@ -121,7 +122,7 @@ class RelationshipUtils {
         else {
             if (association instanceof DynamicAssociation) {
                 sb.append(OPEN_BRACE)
-                sb.append("name")
+                sb.append(ASSOCIATION_NAME)
                     .append(COLON).append(SINGLE_QUOTE)
                     .append(association.getName())
                     .append(SINGLE_QUOTE)
